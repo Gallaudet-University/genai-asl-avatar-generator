@@ -169,6 +169,8 @@ aws_secret_key_access=<your AWS secret access key>
 Set up your environment by installing the required Python packages:
 
 ```sh
+cd && cd genai-asl-avatar-generator
+source venv/bin/activate
 cd genai-asl-avatar-generator/dataprep
 ./env_setup.cmd
 ```
@@ -188,8 +190,19 @@ Download sign videos, segment them, and store them in S3:
 ```sh
 python create_sign_videos.py
 ```
+#### 2.5 Prepare checkpoints
 
-#### 2.5 Generate Avatar Videos
+Create the directory:
+```sh
+mkdir checkpoints # Your directory is genai-asl-avatar-generator/dataprep
+```
+
+Download mmpose models
+```sh
+python install_checkpoints.py
+```
+
+#### 2.6 Generate Avatar Videos
 
 Generate avatar videos:
 
