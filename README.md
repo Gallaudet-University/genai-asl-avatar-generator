@@ -62,13 +62,90 @@ This library is licensed under the MIT-0 License. See the LICENSE file.
 
 This section provides steps to deploy an ASL avatar generator using AWS services. The following sections outline the steps for cloning the repository, processing data, deploying the backend, and setting up the frontend.
 
-### 1. Clone the Git Repository
+### 0. Clone the Git Repository
 
 Clone the git repository using the following command:
 
 ```sh
 git clone https://github.com/aws-samples/genai-asl-avatar-generator.git
 ```
+### 1. Pre-Installations
+
+#### Set up the Debian-based Linux with Amazon Lightsail
+
+1. **Sign up or log in** to your IAM account using this [AWS console](https://aws.amazon.com).
+2. In the dashboard, type in the search and open **Amazon Lightsail**.
+3. **Create an instance** in Amazon Lightsail
+     - Select a platform: Linux/Unix
+     - Select a blueprint:
+         - **Operating System (OS) only**
+         - **Debian**
+     - Select a network type: **Dual-stack**
+     -  Select a size:
+         - **4 GB Memory**
+         - **2 vCPUs Processing**
+         - **80 GB SSD Storage**
+         - **4 TB Transfer**
+#### Pre-installations in SSH
+1. In the instance you created at Amazon Lightsail, **click “Connect using SSH”** to open SSH.
+2. Install **`git`**, **`python3`**, and **`pip`** using this command line:
+```sh
+sudo apt update
+sudo apt upgrade 
+sudo apt install python3
+sudo apt install pip
+sudo apt install git 
+git --version 
+pip --version
+python3 --version
+```
+3. Clone the git repository using this command line and move from the home directory to the project directory:
+```sh
+git clone https://github.com/Gallaudet-University/genai-asl-avatar-generator.git
+cd genai-asl-avatar-generator
+```
+4. In the project directory, create the venv virtual environment using this command line:
+```sh
+sudo apt install python3-venv 
+python3 -m venv venv
+source venv/bin/activate # use “deactivate” if done 
+```
+5. In the virtual environment, install **`mim`** using **`pip`**:
+```sh
+pip install openmim 
+mim --version
+```
+6. Deactivate the virtual environment and install NVCC based on this [NVIDA instructions](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#debian). The Debian release is a 12 version.
+     1. Verify the system has a CUDA-capable GPU using this command line: **`lspci | grep -i nvidia`**
+        - Warning: this command line returns empty.
+     2. Verify the system supported by the version of Linux using this line: **`uname -a`**
+     3. Verify the GCC being installed using this line: **`gcc --version`**
+     4. Download the NVIDIA CUDA Toolkit using this [page](https://developer.nvidia.com/cuda-downloads). In the NVIDIA CUDA Toolkit page, select Linux for the Operating System, **x86_64** for the Architecture, **Debian** for the Distribution, **12** for the Version, and **deb (local)** for the Installer Type. Copy and paste their command line, and then execute it.
+        - An error may be encountered: *`add-apt-repository command not found`*
+          1. Execute this command line for latest package information: **`sudo apt update`**
+          2. Install software-properties-common using this line: **`sudo apt-get install software-properties-common`**
+          3. Update the latest package again using this line: **`sudo apt update`**
+          4. Verify this command existence: **`add-apt-repository --help`**
+
+     5. Verify the integrity of the installation using this command line: **`nvcc --version`**
+        - An error may be encountered: *`nvcc command not found`*. To fix this, follow these steps:
+          1. Check if the installed path exists using this command line: **`ls /usr/local/cuda-12.6/bin/nvcc`**
+          2. Execute this command line to reconfigure your shell file:
+             ```sh
+             echo 'export PATH=/usr/local/cuda-12.6/bin:$PATH' >> ~/.bashrc
+
+             echo 'export LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+
+             source ~/.bashrc
+             ```
+          3. Verify this command existence: **`nvcc --version`**
+
+7. Install **`ffmpeg`** using this command line:
+   ```sh
+   sudo update
+   sudo upgrade
+   sudo apt-get install ffmpeg
+   ```
 
 ### 2. Batch Process
 Follow the instructions specified in the dataprep folder to intialize the database, 
