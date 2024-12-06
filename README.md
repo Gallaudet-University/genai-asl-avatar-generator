@@ -159,7 +159,9 @@ Modify `genai-asl-avatar-generator/dataprep/config.ini` with information specifi
 s3_bucket= <your S3 bucket>
 s3_prefix= <files will be generated in this prefix within your S3 bucket>
 table_name=<dynamodb table name>
-region=<your preferred AWS region> 
+region=<your preferred AWS region>
+aws_key_access=<your AWS access key>
+aws_secret_key_access=<your AWS secret access key>
 ```
 
 #### 2.2 Set Up Your Environment
