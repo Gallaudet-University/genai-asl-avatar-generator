@@ -62,7 +62,10 @@ def prep_metadata():
     filepath = download_file(DOWNLOAD_DIR, DOWNLOAD_FILE, URL)
     csv_filepath = clean_asllvd_metadata(filepath, csv_filepath)
     print("Uploading video_metadata to {}".format(s3_path))
-    s3 = boto3.resource("s3")
+    s3 = boto3.resource("s3",
+                       aws_access_key_id=config["aws_key_access"],
+                       aws_secret_access_key=config["aws_secret_key_access"],
+                       region_name=config["region"]))
     bucket = s3.Bucket(config["s3_bucket"])
     #check if a bucket is exists, if not create a new bucket
     if bucket.creation_date is None:
