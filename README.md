@@ -172,6 +172,7 @@ Set up your environment by installing the required Python packages:
 cd && cd genai-asl-avatar-generator
 source venv/bin/activate
 cd genai-asl-avatar-generator/dataprep
+chmod +x env_setup.cmd
 ./env_setup.cmd
 ```
 
