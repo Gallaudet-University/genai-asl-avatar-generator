@@ -32,6 +32,10 @@ from mmpose.structures import merge_data_samples
 import tempfile
 import cv2
 
+boto3.setup_default_session(aws_access_key_id=config["aws_key_access"], 
+    aws_secret_access_key=config["aws_secret_key_access"],
+    region_name=config["region"])
+
 try:
     from mmdet.apis import inference_detector, init_detector
     has_mmdet = True
