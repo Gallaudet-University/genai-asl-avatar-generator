@@ -142,8 +142,8 @@ mim --version
 
 7. Install **`ffmpeg`** using this command line:
    ```sh
-   sudo update
-   sudo upgrade
+   sudo apt update
+   sudo apt upgrade
    sudo apt-get install ffmpeg
    ```
 
