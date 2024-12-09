@@ -10,6 +10,9 @@ config_parser = configparser.ConfigParser()
 config_parser.read("config.ini")
 config=config_parser['DEFAULT']
 
+boto3.setup_default_session(aws_access_key_id=config["aws_key_access"], 
+    aws_secret_access_key=config["aws_secret_key_access"],
+    region_name=config["region"])
 
 DOWNLOAD_FILE = "dai-asllvd-BU_glossing_with_variations_HS_information-extended-urls-RU.xlsx"
 DOWNLOAD_DIR = "data/raw/gloss2pose/"
@@ -62,10 +65,7 @@ def prep_metadata():
     filepath = download_file(DOWNLOAD_DIR, DOWNLOAD_FILE, URL)
     csv_filepath = clean_asllvd_metadata(filepath, csv_filepath)
     print("Uploading video_metadata to {}".format(s3_path))
-    s3 = boto3.resource("s3",
-                       aws_access_key_id=config["aws_key_access"],
-                       aws_secret_access_key=config["aws_secret_key_access"],
-                       region_name=config["region"])
+    s3 = boto3.resource("s3")
     bucket = s3.Bucket(config["s3_bucket"])
     #check if a bucket is exists, if not create a new bucket
     if bucket.creation_date is None:
