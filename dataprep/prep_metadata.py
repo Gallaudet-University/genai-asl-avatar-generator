@@ -65,7 +65,7 @@ def prep_metadata():
     s3 = boto3.resource("s3",
                        aws_access_key_id=config["aws_key_access"],
                        aws_secret_access_key=config["aws_secret_key_access"],
-                       region_name=config["region"]))
+                       region_name=config["region"])
     bucket = s3.Bucket(config["s3_bucket"])
     #check if a bucket is exists, if not create a new bucket
     if bucket.creation_date is None:
