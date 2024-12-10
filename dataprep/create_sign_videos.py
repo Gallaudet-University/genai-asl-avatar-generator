@@ -229,7 +229,7 @@ def clip_video(from_video_filepath, to_video_filepath, start_frame, end_frame):
     create video clip starting at @start_frame and ending at @end_frame inclusive
     """
 
-    unformatted_cmd = "ffmpeg -i {from_path} -vf trim=start_frame={start_frame}:end_frame={end_frame} -y -an {to_path}"
+    unformatted_cmd = "ffmpeg -i {from_path} -vf select='between(n\\,{start_frame}\\,{end_frame})',setpts=N/FRAME_RATE/TB -y -an {to_path}"
 
     cmd = unformatted_cmd.format(
         from_path=from_video_filepath,
