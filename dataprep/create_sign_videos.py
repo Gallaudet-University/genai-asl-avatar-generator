@@ -130,7 +130,11 @@ def get_video_metadata(bucket, s3_filepath, download_filepath, partition, num_pa
     ]
 
 
-def process_video(video, checkpoint_video_id,checkpoint_filepath):
+def clean_gloss(gloss):
+    """Cleans and formats gloss."""
+    return gloss.replace('+', '').replace('#', '').upper()
+
+def process_video(video, checkpoint_video_id, checkpoint_filepath):
     # Skip videos already processed or invalid checkpoint
     if checkpoint_video_id is None:
         pass
@@ -142,84 +146,102 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
     elif checkpoint_video_id not in valid_ids:  # Ensure it's a valid ID
         print(f"Checkpoint video_id {checkpoint_video_id} is not valid. Skipping.")
         return
-    else:
-        print(f"Processing video: {video.video_id}, Checkpoint: {checkpoint_video_id}")
-    print("Downloading {} with video_id {}".format(video.url, video.video_id))
+
+    print(f"Processing video: {video.video_id}, Checkpoint: {checkpoint_video_id}")
     download_dir = os.path.join(DATA_DIR, VIDEO_DOWNLOAD_DIR)
-    video_filepath = download_large_file(
-        video.url,
-        download_dir,
-        "{}-{}.{}".format(
-            video.session,
-            video.scene,
-            video.url.split(".")[-1]
-        )
-    )
-    for segment in video.segments_metadata:
-        print("Processing video segment {}".format(
-            segment.segment_id
-        ))
-        temp_segment_filepath = clip_video(
-            video_filepath,
-            os.path.join(
-                download_dir,
-                "temp-segment-{}.mov".format(segment.segment_id)
-            ),
-            segment.start_frame,
-            segment.end_frame,
+    
+    try:
+        # Download video
+        video_filepath = download_large_file(
+            video.url,
+            download_dir,
+            "{}-{}.{}".format(
+                video.session,
+                video.scene,
+                video.url.split(".")[-1]
+            )
         )
 
-        segment_filepath = resample_video(
-            temp_segment_filepath,
-            os.path.join(
-                download_dir,
-                "sign-{}.mp4".format(segment.segment_id)
-            ),
-            FRAME_RATE
-        )
-
-        if os.path.exists(segment_filepath):
-            bucket.upload_file(
-                segment_filepath,
+        for segment in video.segments_metadata:
+            print(f"Processing video segment {segment.segment_id}")
+            
+            temp_segment_filepath = clip_video(
+                video_filepath,
                 os.path.join(
-                    S3_LOOKUP_FOLDER,
-                    "sign/",
-                    os.path.basename(segment_filepath)
-                )
+                    download_dir,
+                    f"temp-segment-{segment.segment_id}.mov"
+                ),
+                segment.start_frame,
+                segment.end_frame,
             )
 
-        if os.path.exists(temp_segment_filepath):
-            bucket.upload_file(
+            segment_filepath = resample_video(
                 temp_segment_filepath,
                 os.path.join(
-                    S3_LOOKUP_FOLDER,
-                    "rawsign/",
-                    os.path.basename(temp_segment_filepath)
-                )
+                    download_dir,
+                    f"sign-{segment.segment_id}.mp4"
+                ),
+                FRAME_RATE
             )
 
-        gloss = segment.gloss.upper()
-        for g in gloss.split('/'):
-            g = g.replace('+', '')
-            g = g.replace('#', '')
-            response = table.put_item(
-                Item={
-                    'genai-asl-generator001': g,
-                    'Gloss': g,
-                    'SignID': segment.segment_id
-                }
-            )
+            # Upload files to S3
+            if os.path.exists(segment_filepath):
+                try:
+                    bucket.upload_file(
+                        segment_filepath,
+                        os.path.join(
+                            S3_LOOKUP_FOLDER,
+                            "sign/",
+                            os.path.basename(segment_filepath)
+                        )
+                    )
+                except Exception as e:
+                    print(f"Error uploading segment file to S3: {e}")
 
-        # Clean up
-        os.remove(temp_segment_filepath)
-        if os.path.exists(segment_filepath):
-            os.remove(segment_filepath)
+            if os.path.exists(temp_segment_filepath):
+                try:
+                    bucket.upload_file(
+                        temp_segment_filepath,
+                        os.path.join(
+                            S3_LOOKUP_FOLDER,
+                            "rawsign/",
+                            os.path.basename(temp_segment_filepath)
+                        )
+                    )
+                except Exception as e:
+                    print(f"Error uploading raw segment file to S3: {e}")
 
-    # Update checkpoint after processing entire video
-    checkpoint = s3.Object(S3_BUCKET, checkpoint_filepath)
-    checkpoint.put(Body=r'{}'.format(video.video_id))
-    os.remove(video_filepath)
+            # Process gloss and update DynamoDB
+            gloss = segment.gloss
+            for g in gloss.split('/'):
+                cleaned_gloss = clean_gloss(g)
+                try:
+                    table.put_item(
+                        Item={
+                            'genai-asl-generator001': cleaned_gloss,
+                            'Gloss': cleaned_gloss,
+                            'SignID': segment.segment_id
+                        }
+                    )
+                except Exception as e:
+                    print(f"Error inserting item into DynamoDB: {e}")
 
+            # Clean up
+            if os.path.exists(temp_segment_filepath):
+                os.remove(temp_segment_filepath)
+            if os.path.exists(segment_filepath):
+                os.remove(segment_filepath)
+
+        # Update checkpoint after processing entire video
+        checkpoint = s3.Object(S3_BUCKET, checkpoint_filepath)
+        try:
+            checkpoint.put(Body=r'{}'.format(video.video_id))
+            os.remove(video_filepath)
+        except Exception as e:
+            print(f"Error updating checkpoint or removing video file: {e}")
+
+    except Exception as e:
+        print(f"Error processing video {video.video_id}: {e}")
 
 def run_bash_cmd(cmd, dir=None):
     subprocess.run(cmd, shell=False, cwd=dir, capture_output=True, text=True)
