@@ -131,8 +131,7 @@ def get_video_metadata(bucket, s3_filepath, download_filepath, partition, num_pa
 
 
 def process_video(video, checkpoint_video_id,checkpoint_filepath):
-    # Skip all videos with id <= checkpoint_video_id
-    # If checkpoint_video_id isn't found, raise an Exception
+    # Skip videos already processed or invalid checkpoint
     if checkpoint_video_id is None:
         pass
     elif checkpoint_video_id > video.video_id:
@@ -140,10 +139,11 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
     elif checkpoint_video_id == video.video_id:
         checkpoint_video_id = None
         return
+    elif checkpoint_video_id not in valid_ids:  # Ensure it's a valid ID
+        print(f"Checkpoint video_id {checkpoint_video_id} is not valid. Skipping.")
+        return
     else:
-        raise Exception(
-            "Checkpoint video_id {} not valid".format(checkpoint_video_id)
-        )
+        print(f"Processing video: {video.video_id}, Checkpoint: {checkpoint_video_id}")
     print("Downloading {} with video_id {}".format(video.url, video.video_id))
     download_dir = os.path.join(DATA_DIR, VIDEO_DOWNLOAD_DIR)
     video_filepath = download_large_file(
