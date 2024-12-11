@@ -248,15 +248,23 @@ def resample_video(from_video_filepath, to_video_filepath, frame_rate):
     resamples video with @frame_rate and outputs new video
     """
 
-    unformatted_cmd = "ffmpeg -i {from_path} -filter:v fps={frame_rate} -q:v 0 -vcodec h264  -y {to_path}"
+    cmd = [
+        "ffmpeg",
+        "-i", from_video_filepath,
+        "-vf", f"select='between(n\\,{start_frame}\\,{end_frame})',setpts=N/FRAME_RATE/TB",
+        "-y", "-an", to_video_filepath
+    ]
+    
+    # Debugging: Print the command
+    print("Running command:", " ".join(cmd))
 
-    cmd = unformatted_cmd.format(
-        from_path=from_video_filepath,
-        to_path=to_video_filepath,
-        frame_rate=frame_rate,
-    )
-
-    run_bash_cmd(cmd)
+    # Run the command
+    try:
+        result = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print("FFmpeg output:", result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("Error during FFmpeg execution:", e.stderr)
+        raise
 
     return to_video_filepath
 
