@@ -15,9 +15,9 @@ cd mmpose
 pip install -r requirements.txt
 pip install -v -e .
 
-if [ ! -d "dataprep/checkpoints" ]; then
-  mkdir "dataprep/checkpoints"
+if [ ! -d "checkpoints" ]; then
+  mkdir "checkpoints"
 fi
 
-wget https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth -outfile dataprep/checkpoints
-wget  https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth -outfile dataprep/checkpoints
+wget https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth -outfile checkpoints
+wget  https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth -outfile checkpoints
