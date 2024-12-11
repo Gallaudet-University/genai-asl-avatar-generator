@@ -320,7 +320,7 @@ def create_sign_videos():
         partition_id, number_partitions
     )
     for video in videos:
-        print(video)
+        print(video.video_id)
         process_video(video, checkpoint_video_id,checkpoint_filepath)
 
 
