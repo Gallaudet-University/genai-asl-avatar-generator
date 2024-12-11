@@ -131,6 +131,7 @@ def get_video_metadata(bucket, s3_filepath, download_filepath, partition, num_pa
 
 
 def process_video(video, checkpoint_video_id,checkpoint_filepath):
+    print(f"Debug: Checkpoint video_id: {checkpoint_video_id}, Current video_id: {video.video_id}")
     # Skip all videos with id <= checkpoint_video_id
     # If checkpoint_video_id isn't found, raise an Exception
     if checkpoint_video_id is None:
