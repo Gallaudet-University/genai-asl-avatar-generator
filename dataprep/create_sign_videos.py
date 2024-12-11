@@ -141,6 +141,7 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
         checkpoint_video_id = None
         return
     else:
+        checkpoint_video_id = None
         return
     print("Downloading {} with video_id {}".format(video.url, video.video_id))
     download_dir = os.path.join(DATA_DIR, VIDEO_DOWNLOAD_DIR)
