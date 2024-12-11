@@ -25,5 +25,5 @@ if [ ! -d "../checkpoints" ]; then
 fi
 
 # Download model checkpoints
-wget -O checkpoints/rtmpose-l_simcc-coco-wholebody.pth https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth
-wget -O checkpoints/faster_rcnn_r50_fpn_1x_coco.pth https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
+wget -O ../checkpoints/rtmpose-l_simcc-coco-wholebody.pth https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth
+wget -O ../checkpoints/faster_rcnn_r50_fpn_1x_coco.pth https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
