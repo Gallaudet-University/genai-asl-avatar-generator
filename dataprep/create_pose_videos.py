@@ -46,10 +46,10 @@ except (ImportError, ModuleNotFoundError):
 # pose_config = 'configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py'
 pose_config = 'configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8xb32-270e_coco-wholebody-384x288.py'
 # pose_config ='configs/_base_/datasets/coco_wholebody_openpose.py'
-pose_checkpoint = '../checkpoints/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth'
-# pose_checkpoint = 'checkpoints/rtmpose-x_simcc-coco-wholebody_pt-body7_270e-384x288-401dfc90_20230629.pth'
+# pose_checkpoint = '../checkpoints/rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth'
+pose_checkpoint = 'checkpoints/rtmpose-x_simcc-coco-wholebody_pt-body7_270e-384x288-401dfc90_20230629.pth'
 det_config = 'demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py'
-det_checkpoint = '../checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+det_checkpoint = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 
 device = 'cuda:0'
 cfg_options = dict(model=dict(test_cfg=dict(output_heatmaps=True)))
