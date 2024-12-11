@@ -252,18 +252,28 @@ def clip_video(from_video_filepath, to_video_filepath, start_frame, end_frame):
 
 def resample_video(from_video_filepath, to_video_filepath, frame_rate):
     """
-    resamples video with @frame_rate and outputs new video
+    Resamples video with @frame_rate and outputs new video.
     """
+    # Split the FFmpeg command into a list of arguments
+    cmd = [
+        "ffmpeg",
+        "-i", from_video_filepath,
+        "-filter:v", f"fps={frame_rate}",
+        "-q:v", "0",
+        "-vcodec", "h264",
+        "-y", to_video_filepath
+    ]
 
-    unformatted_cmd = "ffmpeg -i {from_path} -filter:v fps={frame_rate} -q:v 0 -vcodec h264  -y {to_path}"
+    # Debug: Print the command being executed
+    print("Running command:", " ".join(cmd))
 
-    cmd = unformatted_cmd.format(
-        from_path=from_video_filepath,
-        to_path=to_video_filepath,
-        frame_rate=frame_rate,
-    )
-
-    run_bash_cmd(cmd)
+    # Run the command
+    try:
+        result = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print("FFmpeg output:", result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("Error during FFmpeg execution:", e.stderr)
+        raise
 
     return to_video_filepath
 
