@@ -20,8 +20,8 @@ pip install -r requirements.txt
 pip install -v -e .
 
 # Create checkpoints directory if it doesn't exist
-if [ ! -d "checkpoints" ]; then
-  mkdir "checkpoints"
+if [ ! -d "../checkpoints" ]; then
+  mkdir "../checkpoints"
 fi
 
 # Download model checkpoints
