@@ -141,9 +141,7 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
         checkpoint_video_id = None
         return
     else:
-        raise Exception(
-            "Checkpoint video_id {} not valid".format(checkpoint_video_id)
-        )
+        return
     print("Downloading {} with video_id {}".format(video.url, video.video_id))
     download_dir = os.path.join(DATA_DIR, VIDEO_DOWNLOAD_DIR)
     video_filepath = download_large_file(
@@ -320,7 +318,6 @@ def create_sign_videos():
         partition_id, number_partitions
     )
     for video in videos:
-        print(video.video_id)
         process_video(video, checkpoint_video_id,checkpoint_filepath)
 
 
