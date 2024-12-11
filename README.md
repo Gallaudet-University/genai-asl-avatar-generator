@@ -172,8 +172,8 @@ Set up your environment by installing the required Python packages:
 cd && cd genai-asl-avatar-generator
 source venv/bin/activate
 cd dataprep
-chmod +x env_setup.cmd
-./env_setup.cmd
+chmod +x env_setup.sh
+./env_setup.sh
 ```
 
 #### 2.3 Prepare Sign Video Annotation File
