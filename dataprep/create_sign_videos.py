@@ -204,7 +204,7 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
             g = g.replace('#', '')
             response = table.put_item(
                 Item={
-                    'genai-asl-generator001'= g,
+                    'genai-asl-generator001': g,
                     'Gloss': g,
                     'SignID': segment.segment_id
                 }
