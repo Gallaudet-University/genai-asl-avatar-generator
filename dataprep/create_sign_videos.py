@@ -321,7 +321,15 @@ def create_sign_videos():
         partition_id, number_partitions
     )
     for video in videos:
-        process_video(video, checkpoint_video_id,checkpoint_filepath)
+        # Skip videos already processed
+        if checkpoint_video_id is not None and video.video_id <= checkpoint_video_id:
+            print(f"Skipping video {video.video_id} (Checkpoint: {checkpoint_video_id})")
+            continue
+        # Process video and handle errors gracefully
+        try:
+            process_video(video, checkpoint_video_id, checkpoint_filepath)
+        except Exception as e:
+            print(f"Error processing video {video.video_id}: {e}")
 
 
 if __name__ == '__main__':
