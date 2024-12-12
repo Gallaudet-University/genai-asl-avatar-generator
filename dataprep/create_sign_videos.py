@@ -142,7 +142,17 @@ def process_video(video, checkpoint_video_id,checkpoint_filepath):
         checkpoint_video_id = None
         return
     else:
-        checkpoint_video_id = video.video_id
+        for video in videos:
+        # Skip videos already processed
+        if checkpoint_video_id is not None and video.video_id <= checkpoint_video_id:
+            print(f"Skipping video {video.video_id} (Checkpoint: {checkpoint_video_id})")
+            continue
+        # Process video and handle errors gracefully
+        try:
+            process_video(video, checkpoint_video_id, checkpoint_filepath)
+        except Exception as e:
+            print(f"Error processing video {video.video_id}: {e}")
+    
     print("Downloading {} with video_id {}".format(video.url, video.video_id))
     download_dir = os.path.join(DATA_DIR, VIDEO_DOWNLOAD_DIR)
     video_filepath = download_large_file(
