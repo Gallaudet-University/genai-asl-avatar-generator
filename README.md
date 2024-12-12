@@ -191,19 +191,8 @@ Download sign videos, segment them, and store them in S3:
 ```sh
 python create_sign_videos.py
 ```
-#### 2.5 Prepare checkpoints
 
-Create the directory:
-```sh
-mkdir checkpoints # Your directory is genai-asl-avatar-generator/dataprep
-```
-
-Download mmpose models
-```sh
-python install_checkpoints.py
-```
-
-#### 2.6 Generate Avatar Videos
+#### 2.5 Generate Avatar Videos
 
 Generate avatar videos:
 
