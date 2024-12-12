@@ -48,7 +48,7 @@ pose_config = 'configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8x
 # pose_config ='configs/_base_/datasets/coco_wholebody_openpose.py'
 pose_checkpoint = os.path.join(parent_dir,'checkpoints','rtmpose-x_simcc-coco-wholebody_pt-body7_270e-384x288-401dfc90_20230629.pth')
 det_config = 'demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py'
-det_checkpoint = os.path.join(parent_dir,'checkpoints',faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth')
+det_checkpoint = os.path.join(parent_dir,'checkpoints','faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth')
 
 device = 'cuda:0'
 cfg_options = dict(model=dict(test_cfg=dict(output_heatmaps=True)))
