@@ -194,11 +194,15 @@ python create_sign_videos.py
 
 #### 2.5 Generate Avatar Videos
 
-Generate avatar videos:
+Before generating the poses, you must create and use an EC2 instance called **g4dn.xlarge** for the Pythonic script, as seen below. Due to high hourly costs, ensure that you use this for a short time. In the [EC2 page](https://us-east-1.console.aws.amazon.com/ec2), click **Launch instance**, type **poseDataPrep** under *Name*, select **Debian 12** under *Application and OS Images*, select **g4dn.xlarge** under *Instance type*, and keep everything else default. For key pair name, type **poseDataPrep**.
+
+After the EC2 successfully launched, in the list of instances, select and open **poseDataPrep**, click **Connect**, and click **Connect** again. 
+
 
 ```sh
 python create_pose_videos.py
 ```
+When completing this task, delete the **g4dn.xlarge** instance.
 
 ### 3. Deploy the Backend
 
