@@ -140,7 +140,7 @@ mim --version
    sudo apt-get install ffmpeg
    ```
 
-### 2. Batch Process
+### 2. Batch Process<div id='setup'></div>
 Follow the instructions specified in the dataprep folder to intialize the database, 
 
 #### 2.1 Modify Configuration File
@@ -189,9 +189,11 @@ python create_sign_videos.py
 
 Before generating the poses, you must create and use an EC2 instance called **g4dn.xlarge** for the Pythonic script, as seen below. Due to high hourly costs, ensure that you use this for a short time. In the [EC2 page](https://us-east-1.console.aws.amazon.com/ec2), click **Launch instance**, type **poseDataPrep** under *Name*, select **Debian 12** under *Application and OS Images*, select **g4dn.xlarge** under *Instance type*, and keep everything else default. For key pair name, type **poseDataPrep**. Not only that, make sure that **you download the .PEM file to the directory you wanted** in your computer.
 
-After the EC2 successfully launched, in the list of instances, open your **terminal** and type `ssh -i poseDataPrep.pem admin@<EC2 instance's public IPv4 address>`. If you successfully accessed this EC2 via ssh, you should see `Debian GNU/Linux comes with ABSOLUTELY...`. Follow this procedure before you can run the Pythonic script.[section](#ssh)
+After the EC2 successfully launched, in the list of instances, open your **terminal** and type `ssh -i poseDataPrep.pem admin@<EC2 instance's public IPv4 address>`. If you successfully accessed this EC2 via ssh, you should see `Debian GNU/Linux comes with ABSOLUTELY...`. Follow this procedure before you can run the Pythonic script.
 
-     1. Install **git**, **python3**, and **pip** based on this [section](#ssh)
+1. Follow this [script](#ssh) to install packages started with **1.** ended with **7.**.
+2. Follow the [next script](#setup) to reconfigure your configuration file and set up environment, starting with **2.1** and ending with **2.2**.
+
 
 ```sh
 python create_pose_videos.py
