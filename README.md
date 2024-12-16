@@ -193,7 +193,7 @@ After the EC2 successfully launched, in the list of instances, open your **termi
 
 1. Follow this [script](#ssh) to install packages started with **1.** ended with **7.**.
 2. Follow the [next script](#setup) to reconfigure your configuration file and set up environment, starting with **2.1** and ending with **2.2**.
-
+3. Install the **Tesla Driver** in your EC2.
 
 ```sh
 python create_pose_videos.py
