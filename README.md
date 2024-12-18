@@ -110,7 +110,7 @@ mim --version
 ```
 6. Deactivate the virtual environment and install NVCC based on this [NVIDA instructions](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#debian). The Debian release is a 12 version.
      1. Verify the system has a CUDA-capable GPU using this command line: **`lspci | grep -i nvidia`**
-        - Warning: this command line returns empty.
+        - Warning: this command line returns empty if your EC2 is not CUDA-capable GPU. In this case, you need to skip the CUDA installation step.
      2. Verify the system supported by the version of Linux using this line: **`uname -a`**
      3. Verify the GCC being installed using this line: **`gcc --version`**
      4. Download the NVIDIA CUDA Toolkit using this [page](https://developer.nvidia.com/cuda-downloads). In the NVIDIA CUDA Toolkit page, select Linux for the Operating System, **x86_64** for the Architecture, **Debian** for the Distribution, **12** for the Version, and **deb (local)** for the Installer Type. Copy and paste their command line, and then execute it.
