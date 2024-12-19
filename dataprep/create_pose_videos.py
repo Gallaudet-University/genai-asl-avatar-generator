@@ -42,8 +42,8 @@ except (ImportError, ModuleNotFoundError):
 
 det_config = 'mmpose/demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py'
 pose_config = 'mmpose/configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8xb32-270e_coco-wholebody-384x288.py'
-pose_checkpoint = 'checkpoint/rtmpose-l_simcc-coco-wholebody.pth'
-det_checkpoint = 'checkpoint/faster_rcnn_r50_fpn_1x_coco.pth'
+pose_checkpoint = 'checkpoints/rtmpose-l_simcc-coco-wholebody.pth'
+det_checkpoint = 'checkpoints/faster_rcnn_r50_fpn_1x_coco.pth'
 
 # pose_config = 'mmpose/configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py'
 # pose_config ='mmpose/configs/_base_/datasets/coco_wholebody_openpose.py'
