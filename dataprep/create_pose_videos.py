@@ -18,8 +18,6 @@ import pathlib
 
 import boto3 as boto3
 
-os.chdir("mmpose")
-
 import mmcv
 from mmengine.registry import init_default_scope
 import numpy as np
@@ -42,13 +40,13 @@ try:
 except (ImportError, ModuleNotFoundError):
     has_mmdet = False
 
-det_config = 'demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py'
-pose_config = 'configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8xb32-270e_coco-wholebody-384x288.py'
-pose_checkpoint = 'rtmpose-x_simcc-coco-wholebody_pt-body7_270e-384x288-401dfc90_20230629.pth'
-det_checkpoint = 'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+det_config = 'mmpose/demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py'
+pose_config = 'mmpose/configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8xb32-270e_coco-wholebody-384x288.py'
+pose_checkpoint = 'checkpoint/rtmpose-x_simcc-coco-wholebody_pt-body7_270e-384x288-401dfc90_20230629.pth'
+det_checkpoint = 'checkpoint/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
 
-# pose_config = 'configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py'
-# pose_config ='configs/_base_/datasets/coco_wholebody_openpose.py'
+# pose_config = 'mmpose/configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py'
+# pose_config ='mmpose/configs/_base_/datasets/coco_wholebody_openpose.py'
 
 device = 'cuda:0'
 cfg_options = dict(model=dict(test_cfg=dict(output_heatmaps=True)))
