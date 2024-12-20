@@ -193,8 +193,11 @@ After the EC2 successfully launched, in the list of instances, open your **termi
 
 1. Follow this [script](#ssh) to install packages started with **1.** ended with **7.**.
 2. Follow the [next script](#setup) to reconfigure your configuration file and set up environment, starting with **2.1** and ending with **2.2**.
-3. Install the **NVIDIA Driver** using this command line `sudo update && sudo apt install nvidia-driver`
-4. After this, install one more package to make `nvidia-smi` work using this line: 
+3. Reboot your SSH using this line: `sudo reboot`
+4. Install the **NVIDIA Driver** using this command line `sudo apt update && sudo apt install nvidia-driver`
+5. After this, install one more package to make `nvidia-smi` work using this line: `sudo apt install linux-headers-$(uname -r)`
+6. Reboot your SSH again: `sudo reboot`
+7. Verify if `nvidia-smi` works. &larr; Use that line. 
 
 
 ```sh
