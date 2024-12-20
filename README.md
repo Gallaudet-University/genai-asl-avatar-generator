@@ -228,7 +228,7 @@ amplify init
 
 Modify the frontend configuration to point to the backend API:
 
-- Open `frontend/amplify/backend/function/Audio2Sign/index.py`
+- Open `frontend/amplify/backend/function/Audio2Sign/src/index.py`
 - Modify the `stateMachineArn` variable to have the state machine ARN shown in the output generated from backend deployment
 
 
